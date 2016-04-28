@@ -1,0 +1,26 @@
+{
+  "name": "customer-relations-app",
+  "version": "1.0.0",
+  "description": "This app is a customer relations management tool.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rmensah/customer-relations-app.git"
+  },
+  "author": "Richard Mensah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rmensah/customer-relations-app/issues"
+  },
+  "homepage": "https://github.com/rmensah/customer-relations-app#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.14",
+    "morgan": "^1.7.0"
+  }
+}

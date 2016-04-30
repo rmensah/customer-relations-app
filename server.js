@@ -57,6 +57,30 @@ apiRouter.get('/', function(req, res) {
 //more routes for the API will go here
 
 
+// on routes that end in /users”
+
+apiRouter.route('/users')
+	.post(function(req , res) {
+
+		var user = new User();
+		user.name = req.body.name;
+		user.username = req.body.username;
+		user.password = req.body.password;
+		user.save(function(err) {
+			if (err) {
+				if(err.code == 11000)
+					return res.json({
+						success: false, message: 'A user with that\username already exists.'});
+							else
+									return res.send(err);
+			}
+										res.json({ message:'User created!' });
+		});
+	})
+
+
+
+
 //REGISTER ROUTES=====================
 
 // all routes will be prefixed with /api

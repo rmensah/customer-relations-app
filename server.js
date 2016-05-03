@@ -89,6 +89,27 @@ apiRouter.route('/users')
 		});
 	});
 
+//deleting a user
+apiRouter.route('/users/:user_id')
+ .get(function(req, res) {
+
+ })
+ .put(function(req, res) {
+
+ })
+
+ .delete(function(req, res) {
+ 		User.remove({
+ 			_id:
+ 			req.params.user_id
+ 				}, function(err, user) {
+ 			if(err) return 
+ 				res.send(err);
+ 			res.json({ message:
+ 				'successfully deleted' });
+ 			});
+ 		});
+
 
 //REGISTER ROUTES=====================
 

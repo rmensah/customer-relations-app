@@ -77,8 +77,16 @@ apiRouter.route('/users')
 										res.json({ message:'User created!' });
 		});
 	})
+		//get all users
+	.get(function(req, res) {
+		user.find(function(err, users) {
+			if (err)
+				res.send(err);
 
-
+					//return the users
+					res.json(users);
+		});
+	});
 
 
 //REGISTER ROUTES=====================

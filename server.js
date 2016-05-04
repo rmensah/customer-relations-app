@@ -12,6 +12,18 @@ var mongoose = require('mongoose'); // for working w/our database
 
 var port = process.env.PORT || 8080; // set the port for the app
 
+//Connect to our database 
+//(hosted)
+
+//mongoose.connect('mongodb://node:noder@novus.modulusmongo.net')
+
+
+//or 
+
+//Connect to our database 
+//(locally)
+
+mongoose.connect('mongodb://locolhost:27017/myDatabase'
 
 // APP CONFIGURATION ------------------
 // Use body parser so we can grab information from post requests

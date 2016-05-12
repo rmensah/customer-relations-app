@@ -208,9 +208,15 @@ apiRouter.route('/users/:user_id')
  			if(err) return 
  				res.send(err);
  			res.json({ message:
- 				'successfully deleted' });
+ 				'Successfully deleted' });
  			});
  		});
+
+ // api endpoint to get user information
+
+ apiRouter.get('/me', function(req, res) {
+ 	res.send(req.decoded);
+ });
 
 
 //REGISTER ROUTES=====================

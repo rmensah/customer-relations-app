@@ -9,6 +9,9 @@ var app = express(); //define app using express
 var bodyParser = require('body-parser'); //get body-parser
 var morgan = require('morgan'); // used to see requests
 var mongoose = require('mongoose'); // for working w/our database
+var jwt = require('jsonwebtoken');
+
+var superSecret = 'ilovekuukuaewuradwoamissyou';
 
 var port = process.env.PORT || 8080; // set the port for the app
 
@@ -17,13 +20,12 @@ var port = process.env.PORT || 8080; // set the port for the app
 
 //mongoose.connect('mongodb://node:noder@novus.modulusmongo.net')
 
-
 //or 
 
 //Connect to our database 
 //(locally)
 
-mongoose.connect('mongodb://locolhost:27017/myDatabase'
+mongoose.connect('mongodb://locolhost:27017/myDatabase')
 
 // APP CONFIGURATION ------------------
 // Use body parser so we can grab information from post requests
@@ -58,6 +60,56 @@ app.get('/', function(req, res) {
 //get an instance of the express router
 
 var apiRouter = express.Router();
+
+apiRouter.post('/authenticate', function(req, res) { 
+ 
+ //find the user
+ // select the username and password explicitly
+
+ User.findOne({
+ 	username: req.body.username
+ }).select('name username password')
+ 	 .exec(function(err, user) {
+
+ 	 	if (err) throw err;
+
+ 	 	// no user with that username was found
+ 	 	if (!user) {
+ 	 		res.json({
+ 	 			success: false,
+ 	 			message: 'Authentication failed. User not found.'
+ 	 		});
+ 	 	} else if (user) {
+ 	 		// check if password matches
+ 	 		var validPassword = user.comparePassword(req.body.password);
+ 	 		if (!validPassword) {
+ 	 			res.json({
+ 	 				success: false,
+ 	 				message: 'Authentication failed. Wrong password.'
+ 	 			});
+ 	 		} else {
+
+ 	 			//if user is found and password is right
+ 	 			//create a token
+ 	 			
+ 	 			var token = jwt.sign({
+ 	 				name: user.name,
+ 	 				username: user.username 
+ 	 			}, superSecret, {
+ 	 				expiresInMinutes: 1440 // expires in 24 hours
+ 	 				});
+
+ 	 			// return the information including token as JSON
+ 	 			res.json({
+ 	 				success: true,
+ 	 				message: 'Enjoy your token!',
+ 	 				token: token
+ 	 			});
+
+ 	 		}
+ 	 	}
+ 	 });
+});
 
 //test route to make sure everything is working
 //accessed at GET http://locolhost:8080/api

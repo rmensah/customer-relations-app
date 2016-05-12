@@ -111,6 +111,44 @@ apiRouter.post('/authenticate', function(req, res) {
  	 });
 });
 
+
+// route middleware to verify a token
+
+	apiRouter.use(function(req, res, next) {
+		//do logging
+		console.log('Somebody just came to our api');
+
+		//check header or url parameters or post parameters for token
+		var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+		//decode token
+		if (token) {
+
+			//verifies secret and checks exp
+			jwt.verify(token, superSecret, function(err, decoded) {
+				if (err) {
+					return res.status(403).send({
+						success: false,
+						message: 'Failed to authenticate token.'
+					});
+				} else {
+					//if everything is good, save to request for use in other routes
+					req.decoded = decoded;
+					next();
+				}
+			});
+		} else {
+			//if there is no token
+			//return an HTTP response 403 (access forbidden) and an error message
+
+				return res.status(403).send({
+					success:false,
+					message: 'No token provided.'
+
+				});
+		}
+	});
+	//
 //test route to make sure everything is working
 //accessed at GET http://locolhost:8080/api
 

@@ -10,8 +10,7 @@ var bodyParser = require('body-parser'); //get body-parser
 var morgan = require('morgan'); // used to see requests
 var mongoose = require('mongoose'); // for working w/our database
 var jwt = require('jsonwebtoken');
-
-var superSecret = 'ilovekuukuaewuradwoamissyou';
+car config = require('./config');
 
 var port = process.env.PORT || 8080; // set the port for the app
 

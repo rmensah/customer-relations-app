@@ -11,21 +11,10 @@ var morgan = require('morgan'); // used to see requests
 var mongoose = require('mongoose'); // for working w/our database
 var jwt = require('jsonwebtoken');
 var config = require('./config');
-var apiRoutes = require('./app/routes/api')(app, express);
-app.use('/api', apiRoutes);
+var path = require('path');
 var port = process.env.PORT || 8080, // set the port for the app
 
-//Connect to our database 
-//(hosted)
 
-//mongoose.connect('mongodb://node:noder@novus.modulusmongo.net')
-
-//or 
-
-//Connect to our database 
-//(locally)
-
-//mongoose.connect('mongodb://locolhost:27017/myDatabase')
 
 // APP CONFIGURATION ------------------
 // Use body parser so we can grab information from post requests
@@ -48,13 +37,38 @@ app.use(function(req, res, next) {
 //log all requests to the console
 app.use(morgan('dev'));
 
+
+//Connect to our database (hosted)
+//mongoose.connect('config.database');
+
+//or 
+
+//Connect to our database (locally)
+//mongoose.connect('mongodb://locolhost:27017/myDatabase')
+
+//set static files location
+// used for requests that our frontend will make
+
+app.use(express.static(__dirname + '/public'));
+
 // ROUTES FOR THE API
 //====================================
 
-//basic route for the home page
 
-app.get('/', function(req, res) {
-	res.send('Welcome to the home page!');
+//API ROUTES ------------------
+
+var apiRoutes = require('./app/routes/api')(app, express);
+app.use('/api', apiRoutes);
+
+
+// MAIN CATCHALL ROUTE --------------- 
+// SEND USERS TO FRONTEND ------------
+// has to be registered after API ROUTES
+
+//route for the home page
+app.get('*', function(req, res) {
+res.sendFile(path.join(__dirname + '/public/app/views/index.html'));
+
 });
 
 
@@ -65,15 +79,10 @@ app.get('/', function(req, res) {
  	res.send(req.decoded);
  });
 
-
-//REGISTER ROUTES=====================
-
-// all routes will be prefixed with /api
-
 app.use('/api' , apiRouter);
 
 //START THE SERVER
 //======================
 
-app.listen(port);
-console.log('Magic happens on port ' + port);
+app.listen(config.port);
+console.log('Magic happens on port ' + config.port);

@@ -61,6 +61,7 @@ app.get('/', function(req, res) {
 
 var apiRouter = express.Router();
 
+// route to authenticate a user (POST http://localhost:8080/api/authenticate)
 apiRouter.post('/authenticate', function(req, res) { 
  
  //find the user

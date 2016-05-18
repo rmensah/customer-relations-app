@@ -4,6 +4,6 @@ angular.module('userCtrl', ['userService'])
  
      var vm = this;
  
-    // more stuff to come soon
+    // more 
 
    });

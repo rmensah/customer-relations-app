@@ -30,6 +30,9 @@ app.use(morgan('dev'));
 // connect to our database (hosted on modulus.io)
 mongoose.connect(config.database); 
 
+// connect to local database (for test)
+// mongoose.connect('mongodb://localhost/csr_app');
+
 // set static files location
 // used for requests that our frontend will make
 app.use(express.static(__dirname + '/public'));
@@ -49,6 +52,6 @@ app.get('*', function(req, res) {
 });
 
 // START THE SERVER
-// ========================================
+// ======================================== 
 app.listen(config.port);
 console.log('Magic happens on port ' + config.port);

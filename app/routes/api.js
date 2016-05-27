@@ -16,7 +16,7 @@ module.exports = function(app, express) {
 		// look for the user named chris
 		User.findOne({ 'username': 'rich' }, function(err, user) {
 
-			// if there is no chris user, create one
+			// if there is no rich user, create one
 			if (!user) {
 				var sampleUser = new User();
 
